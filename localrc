@@ -19,8 +19,9 @@ OFFLINE=False
 
 
 # ====host ip====
-HOST_IP_IFACE=eth1  # fixed ip iface
-HOST_IP=192.168.199.53 # fixed ip 
+#HOST_IP_IFACE=eth1  # fixed ip iface
+HOST_IP_IFACE=eth2  # openstack components,mysql,rabbit
+HOST_IP=192.168.200.53 # openstack management network
 
 
 # ====libvirt====
@@ -42,22 +43,44 @@ RABBIT_PASSWORD=myroot
 
 
 # ====network====
+#  network_type       device                                           network                         describe
+#----------------------------------------------------------------------------------------------------------------------------------
+#     vlan             eth0(public/external network)          network1:10.1.247.62/24
+#
+#                      eth1(private/internal networks)        network2:172.16.247.62/24       The OpenStack management network:is used for the communication \
+#                                                                                                 between the OpenStack components,the MySQL DB server,
+#                                                                                                 and the RabbitMQ messaging server.
+#                                                                                             The storage network (volume network): is used for the iSCSI \
+#                                                                                                 volume traffic between the storage node (volume node) 
+#                      eth1                                   network3:10.0.0.0/8             The service network: is used for the instance fixed IPs and to \
+#                                                                                                 create all the VLANs/subnets for the tenants.It is completely\
+#                                                                                                 managed by OpenStack.
+#
+#  flatdhcp            eth0                                   network1:10.1.199.0/24          The Public/external network: 
+#                                                                                                 floating ip,
+#                      eth1                                   network2:192.168.199.0/24       The private/internal network:
+#                                                                                                 fixed ip is used for the instance fixed IPs 
+#                      eth2                                   network3:192.168.200.0/24       The OpenStack management network:is used for the communication \
+#                                                                                                 between the OpenStack components,the MySQL DB server,
+#                                                                                                 and the RabbitMQ messaging server.
+#                      eth3                                   network4:192.168.201.0/24       The ISCSI Volume traffic
+
 NET_MAN=FlatDHCPManager
 MULTI_HOST=True
 
 PUBLIC_NETWORK_NAME=pub-nw
-FLOATING_RANGE=10.1.199.120/29
 PUBLIC_INTERFACE=eth0 # PUBLIC_INTERFACE=$PUBLIC_INTERFACE_DEFAULT = br100
+FLOATING_RANGE=10.1.199.120/29
 FORCE_DHCP_RELEASE=True
 TEST_FLOATING_POOL=test
 TEST_FLOATING_RANGE=172.16.65.0/29
 
 PRIVATE_NETWORK_NAME=pri-nw
-FIXED_RANGE=192.168.100.0/24
-FIXED_NETWORK_SIZE=256
-NETWORK_GATEWAY=192.168.100.1
 FLAT_INTERFACE=eth1 # FLAT_INTERFACE=${FLAT_INTERFACE-$GUEST_INTERFACE_DEFAULT} = eth0
 FLAT_NETWORK_BRIDGE=br100 # FLAT_NETWORK_BRIDGE=$FLAT_NETWORK_BRIDGE_DEFAULT
+FIXED_RANGE=192.168.199.0/24
+FIXED_NETWORK_SIZE=256
+NETWORK_GATEWAY=192.168.199.1
 #VLAN_INTERFACE=$GUEST_INTERFACE_DEFAULT
 #NETWORK_CREATE_ARGS=??
 #EC2_DMZ_HOST=${EC2_DMZ_HOST:-$SERVICE_HOST}
