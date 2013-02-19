@@ -1,27 +1,77 @@
 # localrc
 
-DEST=/opt/openstack-cr
-
 NO_UPDATE_REPOS=True # used when install_package
+#OFFLINE=True
+OFFLINE=False
+
+# Repositories
+# ------------
+
+# metering service
+# ceilometer client library
+
+# volume service
+CINDER_BRANCH=2012.2.3
+# volume client
+CINDERCLIENT_BRANCH=master
+
+# compute service
+NOVA_BRANCH=2012.2.3
+# python client library to nova that horizon (and others) use
+NOVACLIENT_BRANCH=master
+
+# image catalog service
+GLANCE_BRANCH=2012.2.3
+# python glance client library
+GLANCECLIENT_BRANCH=master
+
+# unified auth system (manages accounts/tokens)
+KEYSTONE_BRANCH=2012.2.3
+# python keystone client library to nova that horizon uses
+KEYSTONECLIENT_BRANCH=master
+
+# a websockets/html5 or flash powered VNC console for vm instances
+NOVNC_BRANCH=master
+# a websockets/html5 or flash powered SPICE console for vm instances
+
+# django powered web control panel for openstack
+HORIZON_BRANCH=2012.2.3
 
 
+# consolidated openstack python client
+OPENSTACKCLIENT_BRANCH=master
+
+
+# quantum service
+#QUANTUM_BRANCH=master
+# quantum client
+#QUANTUMCLIENT_BRANCH=master
+
+# Tempest test suite
+# heat service
+# python heat client library
+# ryu service
+# diskimage-builder
+# bm_poseur
+
+
+DEST=/opt/openstack-cr
 # Default stack user
 DEFAULT_STACK_USER=centrin
 #DEFAULT_STACK_USER=test2
 SCREEN_NAME=centrin
 DATA_DIR=/opt/data
 
+
 ENABLED_SERVICES=g-api,g-reg,key,n-api,n-crt,-n-obj,n-cpu,n-net,n-cond,cinder,c-sch,c-api,c-vol,n-sch,n-novnc,-n-xvnc,n-cauth,horizon,rabbit,-tempest,$DATABASE_TYPE
 #ENABLED_SERVICES=-g-api,-g-reg,-key,-n-api,-n-crt,-n-obj,-n-cpu,-n-net,-n-cond,-cinder,-c-sch,-c-api,-c-vol,-n-sch,-n-novnc,-n-xvnc,-n-cauth,-horizon,-rabbit,-tempest,-$DATABASE_TYPE
 
-#OFFLINE=True
-OFFLINE=False
 
 
 # ====host ip====
 #HOST_IP_IFACE=eth1  # fixed ip iface
-HOST_IP_IFACE=eth2  # openstack components,mysql,rabbit
-HOST_IP=192.168.200.53 # openstack management network
+HOST_IP_IFACE=eth0  # openstack components,mysql,rabbit
+HOST_IP=192.168.200.7 # openstack management network
 
 
 # ====libvirt====
